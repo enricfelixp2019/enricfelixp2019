@@ -66,7 +66,7 @@ for (i = 0; i < 100; i++) {
 pthread_join (t1, NULL);
    }
 
- printf("Transferências concluídas e memória liberada.\n");
+ printf("Transferência concluídas e memória liberada.\n");
 return 0;
 }
 

@@ -32,7 +32,7 @@ int transferencia_deposito( void *threadarg)
 printf("Saldo de c1: %d\n", from.saldo);
 printf("Saldo de c2: %d\n", to.saldo);
  return 0;
- pthread_exit(0); 
+ pthread_exit(0);
 
 }
 int main()
@@ -66,7 +66,7 @@ for (i = 0; i < 100; i++) {
 pthread_join (t1, NULL);
    }
 
- printf("Transferênciasss concluídas e memória liberada.\n");
+ printf("Transferências concluídas e memória liberada.\n");
 return 0;
 }
 

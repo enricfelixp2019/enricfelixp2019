@@ -3,7 +3,7 @@ Projeto Final
 
 Linux
 
-    basta acessar criar uma pasta atraves do comando mkdir,
+    basta criar uma pasta atraves do comando mkdir,
 
     digite git clone no terminal e insira o link :https://github.com/enricfelixp2019/enricfelixp2019.git
 

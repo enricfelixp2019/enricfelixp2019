@@ -5,7 +5,7 @@
 #include <pthread.h>
 // 64kB stack
 #define FIBER_STACK 1024*64
-
+pthread_mutex_t mutexsum; 
 struct c {
 int saldo;
 };
@@ -17,10 +17,11 @@ int valor;
 int transferencia_deposito( void *threadarg){
    
     if (from.saldo >= valor){
-      
+      pthread_mutex_lock (&mutexsum);
       from.saldo -= valor;
       to.saldo += valor;
- 
+      pthread_mutex_unlock (&mutexsum);
+
     }
 
 printf("Transferência concluída com sucesso!\n");
@@ -34,8 +35,10 @@ return 0;
 
 int transferencia_inversa( void *threadarg){
     if (to.saldo>valor){
+      pthread_mutex_lock (&mutexsum);
       to.saldo -= valor;
       from.saldo += valor;
+      pthread_mutex_unlock (&mutexsum);
     }
 
 printf("Transferência concluída com sucesso!\n");
@@ -48,7 +51,7 @@ printf("Saldo de c2: %d\n", to.saldo);
 
 
 int main(){
-pthread_mutex_t mutexsum;    
+   
 int cont=0;
  void* stack;
 pid_t pid;
@@ -59,37 +62,39 @@ pid_t pid;
 
  printf( "Transferindo 2 para a conta c2\n" );
 valor = 2;
-;
+pthread_t t1,t2;
 
-  for (int i = 0; i <= 52; i++) {
-            
-            
-            pthread_t t1,t2;
-    
-            pthread_create (&t1, NULL,(void*)transferencia_deposito, NULL);
-          
-            perror( "clone" );
-            
-     
-            pthread_join (t1, NULL);
-            cont ++;
-            printf("contador=%d\n",cont);
+  
            
             
-   for (int j = 0; j < 99; j++){
+   for (int j = 1; j <= 50; j++){
 
             pthread_create (&t2, NULL,(void*)transferencia_inversa, NULL);
             
 
             perror( "clone" );
           
-        
+            
             pthread_join (t2, NULL);
              cont ++;
             printf("contador=%d\n",cont);
-  }
+   }
 
-    return 0;
+
+for (int k = 1; k<=50 ; k++) {
+            
+            
+            
+    
+            pthread_create (&t1, NULL,(void*)transferencia_deposito, NULL);
+            
+            perror( "clone" );
+
+            pthread_join (t1, NULL);
+            cont ++;
+            printf("contador=%d\n",cont);
+    
   }
     printf("Transferências concluídas e memória liberada.\n");
+    return 0;
     }
